@@ -1,14 +1,15 @@
 from builtins import *
 
+
 def main():
-    with open("C:\\Users\\Seth\\PycharmProjects\\BioInformaticsProjects\\ecoli.fasta", "r") as g:
+    with open("ecoli.fasta", "r") as g:
         for line in g:
             if not line.startswith('<'):
                 print(line)
 
+
 if __name__ == '__main__':
     main()
-
 
 
 def reverse_complement(input):
@@ -24,3 +25,28 @@ def reverse_complement(input):
         if x == "G":
             complement += "C"
     return complement
+
+
+def minimum_skew(dna):
+    skew_count = 0
+    skew_min = 0
+    skew_loc = []
+    i = 1
+    for x in dna:
+        if x == "C":
+            skew_count -= 1
+        elif x == "G":
+            skew_count += 1
+
+        if skew_count < skew_min:
+            skew_loc = []
+            skew_min = skew_count
+            skew_loc.append(i)
+        elif skew_count == skew_min:
+            skew_loc.append(i)
+
+        i += 1
+    return skew_loc
+
+
+
