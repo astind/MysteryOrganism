@@ -2,11 +2,12 @@ from builtins import *
 
 
 def main():
+    fullstr = ""
     with open("ecoli.fasta", "r") as g:
         for line in g:
             if not line.startswith('<'):
-                print(line)
-
+                fullstr = fullstr + line
+        
 
 if __name__ == '__main__':
     main()
@@ -16,10 +17,13 @@ def approx_pattern(compStr, fullStr):
     starters = []
     for c in range(0,len(fullStr) - len(compStr)):
         cnt = 0
+        cnt2 = 0
         for d in range(0,len(compStr)):
             if compStr[d] != fullStr[c + d]:
                 cnt = cnt + 1
-        if cnt <= int(mismatch):
+            if reverse_complement(compStr)[d] != fullStr[c + d]:
+                cnt2 = cnt2 + 1
+        if cnt <= int(mismatch) or cnt2 <= int(mismatch):
             starters.append(c)
     return starters
 
@@ -57,7 +61,7 @@ def minimum_skew(dna):
             skew_loc.append(i)
 
         i += 1
-    return skew_loc
+    return skew_loc[0]
 
 
 
