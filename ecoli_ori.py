@@ -6,12 +6,16 @@ def main():
     with open("ecoli.fasta", "r") as g:
         for line in g:
             if not line.startswith('<'):
-                dna = dna + line
+                dna = dna + line.strip("\n")
     starting_pos = int(minimum_skew(dna))
-    print(type(starting_pos))
     dnaSplice = dna[starting_pos:starting_pos + 500]
+    dnaaBox = []
     for c in range(0,500 - 9):
-        approx_pattern(dnaSplice[c:c + 9], dnaSplice)
+        temp = approx_pattern(dnaSplice[c:c + 10], dnaSplice)
+        if len(temp) > 3:
+            dnaaBox.append(temp)
+    for s in dnaaBox:
+        print(s)
 
 def approx_pattern(compStr, fullStr):
     mismatch = 1
@@ -22,10 +26,13 @@ def approx_pattern(compStr, fullStr):
         for d in range(0,len(compStr)):
             if compStr[d] != fullStr[c + d]:
                 cnt = cnt + 1
-            if reverse_complement(compStr)[d] != fullStr[c + d]:
+            rev = reverse_complement(compStr)
+            if rev[d] != fullStr[c + d]:
                 cnt2 = cnt2 + 1
-        if cnt <= int(mismatch) or cnt2 <= int(mismatch):
-            starters.append(c)
+        if cnt <= int(mismatch):
+            starters.append(compStr)
+        elif cnt2 <= int(mismatch):
+            starters.append(rev)
     return starters
 
 def reverse_complement(input):
