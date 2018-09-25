@@ -11,6 +11,19 @@ def main():
 if __name__ == '__main__':
     main()
 
+def approx_pattern(input):
+    compStr = input.split()[0]
+    fullStr = input.split()[1]
+    offset = input.split()[2]
+    starters = []
+    for c in range(0,len(fullStr) - len(compStr)):
+        cnt = 0
+        for d in range(0,len(compStr)):
+            if compStr[d] != fullStr[c + d]:
+                cnt = cnt + 1
+        if cnt <= int(offset):
+            starters.append(c)
+    return starters
 
 def reverse_complement(input):
     reverse = input[::-1]
