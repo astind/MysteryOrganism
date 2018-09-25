@@ -2,15 +2,16 @@ from builtins import *
 
 
 def main():
-    fullstr = ""
+    dna = ""
     with open("ecoli.fasta", "r") as g:
         for line in g:
             if not line.startswith('<'):
-                fullstr = fullstr + line
-        
-
-if __name__ == '__main__':
-    main()
+                dna = dna + line
+    starting_pos = int(minimum_skew(dna))
+    print(type(starting_pos))
+    dnaSplice = dna[starting_pos:starting_pos + 500]
+    for c in range(0,500 - 9):
+        approx_pattern(dnaSplice[c:c + 9], dnaSplice)
 
 def approx_pattern(compStr, fullStr):
     mismatch = 1
@@ -62,6 +63,9 @@ def minimum_skew(dna):
 
         i += 1
     return skew_loc[0]
+
+if __name__ == '__main__':
+    main()
 
 
 
